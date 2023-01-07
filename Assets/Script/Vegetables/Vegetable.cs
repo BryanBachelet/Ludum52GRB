@@ -30,6 +30,8 @@ public class Vegetable : MonoBehaviour
     private MeshRenderer m_renderer;
     private Material m_material;
 
+    private vfxBinder_Parameter m_vfxBinder;
+
     public State GetState() { return m_currentState; }
 
     private void Start()
@@ -40,6 +42,7 @@ public class Vegetable : MonoBehaviour
     private void InitComponent()
     {
         m_renderer = GetComponent<MeshRenderer>();
+        m_vfxBinder = GetComponent<vfxBinder_Parameter>(); m_vfxBinder.timeToMoisie = m_harvestTime;
         m_material = m_renderer.material;
         m_material.color = m_growingColor;
     }
@@ -64,6 +67,7 @@ public class Vegetable : MonoBehaviour
         if (m_lifeTimer >= m_growingTime)
         {
             m_currentState = State.Harvest;
+            m_vfxBinder.activeMoisie = true;
             m_lifeTimer = 0;
             m_material.color = m_harvestColor;
         }
