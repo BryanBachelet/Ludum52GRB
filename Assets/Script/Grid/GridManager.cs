@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEditor;
 
 [SerializeField]
 public class Cell
@@ -26,13 +26,22 @@ public class GridManager : MonoBehaviour
     [SerializeField] private bool m_showGrid = false;
     [SerializeField][HideInInspector] private Cell[] m_cellsPosition = new Cell[0];
     private Vector3 m_startPoint;
-
+    [SerializeField] [HideInInspector] private GridElement[] m_gridElements;
+    private bool isBuild = false;
 
 
     // Start is called before the first frame update
-    void Awake()
+    public void BuildGrid()
     {
         CalculateGrid();
+        ActiveGridElements();
+        isBuild = true;
+    }
+
+    private void Awake()
+    {
+        if (isBuild) return;
+        BuildGrid();
     }
 
     private void CalculateGrid()
@@ -46,6 +55,14 @@ public class GridManager : MonoBehaviour
                 m_cellsPosition[j + i * m_gridSize] = new Cell(m_startPoint + new Vector3(m_cellSize.x * i, 0, m_cellSize.y * j), j + i * m_gridSize);
                 m_cellsPosition[j + i * m_gridSize].isEmpty = true;
             }
+        }
+    }
+
+    private void ActiveGridElements()
+    {
+        for (int i = 0; i < m_gridElements.Length; i++)
+        {
+            m_gridElements[i].InitObstacle();
         }
     }
     
@@ -66,7 +83,9 @@ public class GridManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (m_showGrid)
+        if (!m_showGrid) return;
+
+        if (!isBuild && !EditorApplication.isPlaying)
         {
             Vector3 startPoint = new Vector3(m_gridSize / 2 * -m_cellSize.x, 0, m_gridSize / 2 * -m_cellSize.y);
             for (int i = 0; i < m_gridSize; i++)
@@ -79,6 +98,19 @@ public class GridManager : MonoBehaviour
 
             }
         }
+
+        if (isBuild || EditorApplication.isPlaying)
+        {
+            for (int i = 0; i < m_cellsPosition.Length; i++)
+            {
+                Gizmos.color = Color.white;
+                if (!m_cellsPosition[i].isEmpty)
+                {
+                    Gizmos.color = Color.red;
+                }
+                    Gizmos.DrawSphere(m_cellsPosition[i].position, m_debugSizePoint);
+            }
+        }
     }
 
     public void DrawClosestCellPosition(Vector3 position)
@@ -87,4 +119,11 @@ public class GridManager : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(cell.position, m_debugSizePoint*2);
     }
+
+    public void SetGridElement(GridElement[] gridElements)
+    {
+        m_gridElements = gridElements;
+    }
+
+    public Vector2 GetCellSize() { return m_cellSize; }
 }
