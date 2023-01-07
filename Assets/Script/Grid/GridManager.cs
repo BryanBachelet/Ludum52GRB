@@ -14,7 +14,7 @@ public class Cell
     public Vector3 position = Vector3.zero;
     public bool isEmpty = true ;
     public int index =0;
-    public Vegetable m_currentVegetable;
+    public Vegetable currentVegetable;
 }
 
 public class GridManager : MonoBehaviour
