@@ -8,7 +8,8 @@ public class Vegetable : MonoBehaviour
     {
         Growing,
         Harvest,
-        Rotten
+        Rotten,
+        Stun
     }
     [SerializeField] private State m_currentState;
 
@@ -109,8 +110,18 @@ public class Vegetable : MonoBehaviour
         transform.position += direction.normalized * m_speed * Time.deltaTime;
     }
 
-    public void GetCollect()
+    private void StunState()
     {
+
+    }
+    
+    public void GetHit()
+    {
+        m_currentState = State.Stun;
+        gameObject.tag = "Collectable";
+    }
+    public void GetCollect()
+    { 
         Destroy(gameObject);
     }
 }
