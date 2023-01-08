@@ -16,14 +16,33 @@ namespace Player
         [SerializeField] private float m_interactionDistance;
         [SerializeField] private GameObject m_vegetable;
         [SerializeField] private GameObject m_throwSeed;
+        [Header("Feedbacks parameters")]
         [SerializeField] private GameObject m_quadFeedback;
-        [SerializeField] private GameObject m_imagefeedback;
+        [SerializeField] private GameObject m_interactionFeedback;
+        [SerializeField] private Text m_seedText;
+        [SerializeField] private Text m_composterText;
+        [SerializeField] private Text m_vegetableText;
+
         [SerializeField] private int m_maxSeeds = 15;
 
 
-        [SerializeField]  private int[] m_seeds = new int[1];
+        [SerializeField] private int[] m_seeds = new int[1];
+        private int m_indexSeedSelected = 0;
         private int m_vegetableCarryNumber;
         private int m_rottenVegetableCarry;
+
+
+        private void Start()
+        {
+            UpdateUIFeedback();
+        }
+
+        private void UpdateUIFeedback()
+        {
+            m_seedText.text = m_seeds[m_indexSeedSelected].ToString();
+            m_composterText.text = m_rottenVegetableCarry.ToString();
+            m_vegetableText.text = m_vegetableCarryNumber.ToString();
+        }
 
         #region Input
 
@@ -51,6 +70,7 @@ namespace Player
             ThrowVegetable throwVegetable = go.GetComponent<ThrowVegetable>();
             throwVegetable.directon = transform.forward;
             m_vegetableCarryNumber--;
+            UpdateUIFeedback();
         }
 
         private void HarvestInteraction()
@@ -65,11 +85,12 @@ namespace Player
             if (!cell.isEmpty || m_seeds[0] == 0) return;
 
             cell.isEmpty = false;
-           
+
             GameObject go = GameObject.Instantiate(m_vegetable, cell.position, transform.rotation);
             Vegetable vege = go.GetComponent<Vegetable>();
             vege.InitVegetable(transform, cell);
-            m_seeds[0]--;
+            m_seeds[m_indexSeedSelected]--;
+            UpdateUIFeedback();
         }
 
         private void Harvest(Cell cell)
@@ -80,6 +101,7 @@ namespace Player
             cell.currentVegetable = null;
             cell.isEmpty = true;
             m_vegetableCarryNumber++;
+            UpdateUIFeedback();
         }
 
         private void Update()
@@ -87,22 +109,14 @@ namespace Player
             CellPreVisual();
         }
 
-        private void OnDrawGizmos()
-        {
-            if (EditorApplication.isPlaying)
-            {
-                m_gridManager.DrawClosestCellPosition(transform.position + transform.forward * m_interactionDistance);
-            }
-        }
-
         private void CellPreVisual()
         {
             m_quadFeedback.SetActive(true);
-            m_imagefeedback.SetActive(false);
+            m_interactionFeedback.SetActive(false);
 
             Cell cellClosest = m_gridManager.ClosestCells(transform.position + transform.forward * m_interactionDistance);
             m_quadFeedback.transform.position = cellClosest.position + new Vector3(0, 0.1f, 0);
-            m_imagefeedback.transform.position = cellClosest.position + new Vector3(0, 1f, 0.5f);
+            m_interactionFeedback.transform.position = cellClosest.position + new Vector3(0, 1f, 0.5f);
 
             if (cellClosest.isEmpty) return;
 
@@ -110,7 +124,7 @@ namespace Player
 
             if (cellClosest.currentVegetable && cellClosest.currentVegetable.GetState() != Vegetable.State.Harvest) return;
 
-            m_imagefeedback.SetActive(true);
+            m_interactionFeedback.SetActive(true);
 
         }
 
@@ -127,6 +141,7 @@ namespace Player
 
             other.GetComponent<Vegetable>().GetCollect();
             m_rottenVegetableCarry++;
+            UpdateUIFeedback();
         }
 
         private void GiveComposter(Collider other)
@@ -134,6 +149,8 @@ namespace Player
             if (other.tag != "Composter") return;
 
             other.GetComponent<ComposterBehavior>().AddVegetable(m_rottenVegetableCarry);
+            m_rottenVegetableCarry = 0;
+            UpdateUIFeedback();
         }
 
         private void TakeGroupSeed(Collider other)
@@ -145,6 +162,11 @@ namespace Player
             m_seeds[index] += seed.allSeed.Length;
             m_seeds[index] = Mathf.Clamp(m_seeds[index], 0, m_maxSeeds);
             Destroy(other.gameObject);
+
+            if (m_indexSeedSelected != index) return;
+
+            UpdateUIFeedback();
+
         }
     }
 }
