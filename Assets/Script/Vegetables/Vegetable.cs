@@ -111,6 +111,23 @@ public class Vegetable : MonoBehaviour
         transform.position += direction.normalized * m_speed * Time.deltaTime;
     }
 
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PlayerCollision(other);
+        
+    }
+
+    private void PlayerCollision(Collider other)
+    {
+        if (m_currentState != State.Rotten || other.tag != "Player") return;
+
+        PlayerLife playerLife = other.GetComponent<PlayerLife>();
+        playerLife.ChangeLife(-1);
+        GetCollect();
+    }
+
+
     private void StunState()
     {
 
@@ -125,4 +142,6 @@ public class Vegetable : MonoBehaviour
     { 
         Destroy(gameObject);
     }
+
+
 }
