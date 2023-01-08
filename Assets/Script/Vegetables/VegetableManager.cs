@@ -6,6 +6,9 @@ using UnityEngine;
 public enum VegetableType
 {
     Tomato,
+    Carrot,
+    Radish
+
 }
 
 public class VegetableManager : MonoBehaviour

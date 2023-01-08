@@ -14,8 +14,9 @@ namespace Player
     {
         [SerializeField] private GridManager m_gridManager;
         [SerializeField] private float m_interactionDistance;
-        [SerializeField] private GameObject m_vegetable;
         [SerializeField] private GameObject m_throwSeed;
+        [SerializeField] private GameObject[] m_vegetable = new GameObject[3];
+
         [Header("Feedbacks parameters")]
         [SerializeField] private GameObject m_quadFeedback;
         [SerializeField] private GameObject m_interactionFeedback;
@@ -26,9 +27,10 @@ namespace Player
         [SerializeField] private int m_maxSeeds = 15;
 
 
-        [SerializeField] private int[] m_seeds = new int[1];
+        private int[] m_seeds = new int[3];
         private int m_indexSeedSelected = 0;
-        private int m_vegetableCarryNumber;
+        private int m_indexVegetableSelected = 0;
+        private int[] m_vegetableCarryNumber = new int[3];
         private int m_rottenVegetableCarry;
 
 
@@ -41,7 +43,7 @@ namespace Player
         {
             m_seedText.text = m_seeds[m_indexSeedSelected].ToString();
             m_composterText.text = m_rottenVegetableCarry.ToString();
-            m_vegetableText.text = m_vegetableCarryNumber.ToString();
+            m_vegetableText.text = m_vegetableCarryNumber[m_indexVegetableSelected].ToString();
         }
 
         #region Input
@@ -56,20 +58,38 @@ namespace Player
         {
             if (ctx.started) HarvestInteraction();
         }
+
+        public void ChangeSeedInput(InputAction.CallbackContext ctx)
+        {
+            if (ctx.started)
+            {
+                ChangeObjectSelected((int)ctx.ReadValue<float>(),ref m_indexSeedSelected,m_seeds.Length);
+            }
+        }
+
+    
+
+        public void ChangeVegetableInput(InputAction.CallbackContext ctx)
+        {
+            if (ctx.started)
+            {
+                ChangeObjectSelected((int)Mathf.Sign(ctx.ReadValue<float>()), ref m_indexVegetableSelected, m_vegetable.Length);
+            }
+        }
+
         #endregion
 
         private void ThrowVegetable()
         {
-            if (m_vegetableCarryNumber <= 0)
+            if (m_vegetableCarryNumber[m_indexVegetableSelected] <= 0)
             {
-                Debug.LogError("No Vegetable carry");
                 return;
             }
 
             GameObject go = GameObject.Instantiate(m_throwSeed, transform.position, transform.rotation);
             ThrowVegetable throwVegetable = go.GetComponent<ThrowVegetable>();
             throwVegetable.directon = transform.forward;
-            m_vegetableCarryNumber--;
+            m_vegetableCarryNumber[m_indexVegetableSelected]--;
             UpdateUIFeedback();
         }
 
@@ -86,7 +106,7 @@ namespace Player
 
             cell.isEmpty = false;
 
-            GameObject go = GameObject.Instantiate(m_vegetable, cell.position, transform.rotation);
+            GameObject go = GameObject.Instantiate(m_vegetable[m_indexSeedSelected], cell.position, transform.rotation);
             Vegetable vege = go.GetComponent<Vegetable>();
             vege.InitVegetable(transform, cell);
             m_seeds[m_indexSeedSelected]--;
@@ -97,10 +117,12 @@ namespace Player
         {
             if (cell.currentVegetable == null || cell.currentVegetable.GetState() != Vegetable.State.Harvest) return;
 
+            int index = (int)cell.currentVegetable.m_type;
             cell.currentVegetable.GetCollect();
             cell.currentVegetable = null;
             cell.isEmpty = true;
-            m_vegetableCarryNumber++;
+
+            m_vegetableCarryNumber[index]++;
             UpdateUIFeedback();
         }
 
@@ -167,6 +189,16 @@ namespace Player
 
             UpdateUIFeedback();
 
+        }
+
+        private void ChangeObjectSelected(int input, ref int index, int arrayLength)
+        {
+            index += input;
+
+            if (index == arrayLength) index = 0;
+            if (index ==  -1 ) index = arrayLength - 1;
+
+            UpdateUIFeedback();
         }
     }
 }

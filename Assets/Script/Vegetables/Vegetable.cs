@@ -12,6 +12,7 @@ public class Vegetable : MonoBehaviour
         Stun
     }
     [SerializeField] private State m_currentState;
+     public VegetableType m_type;
 
     [Header("Growing Parameters")]
     [SerializeField] private float m_growingTime = 15  ;
