@@ -30,9 +30,6 @@ public class ComposterBehavior : MonoBehaviour
             m_vegetableCount -= m_seedCondition;
             m_seedCondition = Random.Range(m_rottenVegetableMin, m_rottenVegetableMax);
         }
-
-      
-
     }
 
     private void CreateSeed()
