@@ -27,10 +27,10 @@ namespace Player
         [SerializeField] private int m_maxSeeds = 15;
 
 
-        private int[] m_seeds = new int[3];
+        private int[] m_seeds = new int[4];
         private int m_indexSeedSelected = 0;
         private int m_indexVegetableSelected = 0;
-        private int[] m_vegetableCarryNumber = new int[3];
+        private int[] m_vegetableCarryNumber = new int[4];
         private int m_rottenVegetableCarry;
 
 

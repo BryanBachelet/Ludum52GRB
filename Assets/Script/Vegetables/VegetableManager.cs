@@ -7,7 +7,9 @@ public enum VegetableType
 {
     Tomato,
     Carrot,
-    Radish
+    Radish,
+    Special
+
 
 }
 
