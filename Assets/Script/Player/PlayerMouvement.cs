@@ -8,7 +8,7 @@ namespace Player
     public class PlayerMouvement : MonoBehaviour
     {
         [SerializeField] private float m_speed;
-
+        [SerializeField] private Animator m_animator;
         private PlayerInput m_playerInput;
         private Rigidbody m_rigidbody;
 
@@ -33,10 +33,12 @@ namespace Player
             {
                 Vector2 input = ctx.ReadValue<Vector2>();
                 m_directionInput = new Vector3(input.x, 0, input.y);
+                m_animator.SetBool("IsRunning",true);
             }
             if (ctx.canceled)
             {
                 m_directionInput = Vector3.zero;
+                m_animator.SetBool("IsRunning", false);
 
             }
         }

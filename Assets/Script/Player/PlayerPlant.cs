@@ -20,6 +20,7 @@ namespace Player
         [Header("Feedbacks parameters")]
         [SerializeField] private GameObject m_quadFeedback;
         [SerializeField] private GameObject m_interactionFeedback;
+        [SerializeField] private Animator m_animator;
         [SerializeField] private Text m_seedText;
         [SerializeField] private Text m_composterText;
         [SerializeField] private Text m_vegetableText;
@@ -60,6 +61,8 @@ namespace Player
         public void ThrowInput(InputAction.CallbackContext ctx)
         {
             if (ctx.started) ThrowVegetable();
+
+
         }
 
 
@@ -72,8 +75,10 @@ namespace Player
         {
             if (ctx.started)
             {
+                
                 ChangeObjectSelected((int)ctx.ReadValue<float>(),ref m_indexSeedSelected,m_seeds.Length);
                 playerInterfaceImage[1].sprite = seedSelectorImage[m_indexSeedSelected];
+                
             }
         }
 
@@ -97,6 +102,8 @@ namespace Player
                 return;
             }
 
+            m_animator.SetBool("IsThrow", true);
+            StartCoroutine(Throw());
             GameObject go = GameObject.Instantiate(m_throwSeed, transform.position - new Vector3(0,2,0), transform.rotation);
             GlobalSoundManager.PlayOneShot(1, Vector3.zero);
             ThrowVegetable throwVegetable = go.GetComponent<ThrowVegetable>();
@@ -104,13 +111,28 @@ namespace Player
             throwVegetable.directon = transform.forward;
             m_vegetableCarryNumber[m_indexVegetableSelected]--;
             UpdateUIFeedback();
+            
         }
 
         private void HarvestInteraction()
         {
+            m_animator.SetBool("IsCrouch", true);
             Cell cell = m_gridManager.ClosestCells(transform.position + transform.forward * m_interactionDistance);
             Plant(cell);
             Harvest(cell);
+            StartCoroutine(Rest());
+        }
+        
+        private IEnumerator Rest()
+        {
+            yield return new WaitForSeconds(1.0f);
+            m_animator.SetBool("IsCrouch", false);
+        }
+
+        private IEnumerator Throw()
+        {
+            yield return new WaitForSeconds(1.0f);
+            m_animator.SetBool("IsThrow", false);
         }
 
         private void Plant(Cell cell)
