@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{764428fd-9969-4475-91cb-f202888e83bd}">
+		<property name="assetPath">
+			<value>Recolter2.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>1.4770521541950112</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{a95f89e6-32eb-47c2-8b11-d9c994a80100}</destination>
+		</relationship>
+	</object>
+</objects>
