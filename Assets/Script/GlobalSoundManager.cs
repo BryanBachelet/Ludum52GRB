@@ -9,10 +9,10 @@ public class GlobalSoundManager : MonoBehaviour
     static EventInstance[] everyEvent;
     public EventInstance[] everyEvent_Attribution;
 
-    [EventRef]
-    static string[] OneS_Sound;
-    [EventRef]
-    public string[] OneS_Sound_Attribution;
+
+    static EventReference[] OneS_Sound;
+
+    public EventReference[] OneS_Sound_Attribution;
 
 
     // Start is called before the first frame update

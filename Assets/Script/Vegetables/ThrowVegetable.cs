@@ -23,6 +23,7 @@ public class ThrowVegetable : MonoBehaviour
         if(other.tag == m_vegetableTag)
         {
             Vegetable vegeCurrent = other.GetComponent<Vegetable>();
+            GlobalSoundManager.PlayOneShot(2, Vector3.zero);
             vegeCurrent.GetHit();
             Destroy(gameObject);
         }

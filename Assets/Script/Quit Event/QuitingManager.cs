@@ -15,7 +15,9 @@ public class QuitingManager : MonoBehaviour
 
     private int m_currentEvent = 0;
 
-
+    public GameObject carrotSeed;
+    public GameObject radishSeed;
+    public CameraBehavior camScriptBehavior;
     public void ListenToEvent(int index, UnityAction call)
     {
         m_quitEvent[0].AddListener(call);
@@ -39,5 +41,31 @@ public class QuitingManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void SpawnCarrotObject()
+    {
+        carrotSeed.SetActive(true);
+    }
+
+    public void SpawnRadishObject()
+    {
+        radishSeed.SetActive(true);
+    }
+
+    public void UnlockCamera()
+    {
+        camScriptBehavior.isfollowing = true;
+    }
+    public void IncreaseSpeed()
+    {
+
+    }
+    public void BiggerThrowableObject()
+    {
+
+    }
+    public void ColorChanging()
+    {
+
+    }
 
 }

@@ -35,9 +35,14 @@ namespace Player
 
         public Sprite[] seedSelectorImage;
         public Sprite[] ThrowVegetableImage;
+        public Sprite compostImage;
 
         public Image[] playerInterfaceImage;
-        
+        private GameObject lastVegetableSelected;
+
+        public GameObject notificationPrefab;
+        public GameObject notificationPrefabRemove;
+        public GameObject notificationHolderPosition;
         private void Start()
         {
             UpdateUIFeedback();
@@ -93,7 +98,9 @@ namespace Player
             }
 
             GameObject go = GameObject.Instantiate(m_throwSeed, transform.position, transform.rotation);
+            GlobalSoundManager.PlayOneShot(1, Vector3.zero);
             ThrowVegetable throwVegetable = go.GetComponent<ThrowVegetable>();
+            GenerateNotification(notificationPrefabRemove, ThrowVegetableImage[m_indexVegetableSelected], "- 1");
             throwVegetable.directon = transform.forward;
             m_vegetableCarryNumber[m_indexVegetableSelected]--;
             UpdateUIFeedback();
@@ -111,8 +118,9 @@ namespace Player
             if (!cell.isEmpty || m_seeds[0] == 0) return;
 
             cell.isEmpty = false;
-
+            GlobalSoundManager.PlayOneShot(6, Vector3.zero);
             GameObject go = GameObject.Instantiate(m_vegetable[m_indexSeedSelected], cell.position, transform.rotation);
+            GenerateNotification(notificationPrefabRemove, seedSelectorImage[m_indexSeedSelected], "- 1");
             Vegetable vege = go.GetComponent<Vegetable>();
             vege.InitVegetable(transform, cell);
             m_seeds[m_indexSeedSelected]--;
@@ -123,7 +131,10 @@ namespace Player
         {
             if (cell.currentVegetable == null || cell.currentVegetable.GetState() != Vegetable.State.Harvest) return;
 
+            GlobalSoundManager.PlayOneShot(4, Vector3.zero);
+            GlobalSoundManager.PlayOneShot(7, Vector3.zero);
             int index = (int)cell.currentVegetable.m_type;
+            GenerateNotification(notificationPrefab, ThrowVegetableImage[index], "+ 1");
             cell.currentVegetable.GetCollect();
             cell.currentVegetable = null;
             cell.isEmpty = true;
@@ -132,11 +143,48 @@ namespace Player
             UpdateUIFeedback();
         }
 
+        private void CheckHarvestPosssibility(Cell cell)
+        {
+            if (cell.currentVegetable == lastVegetableSelected) return;
+            else
+            {
+                if (lastVegetableSelected)
+                {
+                    SetLayerRecursively(lastVegetableSelected, 0);
+                }
+            }
+            if (cell.currentVegetable == null || cell.currentVegetable.GetState() != Vegetable.State.Harvest) return;
+
+            lastVegetableSelected = cell.currentVegetable.gameObject;
+            SetLayerRecursively(lastVegetableSelected, 6);
+
+
+        }
         private void Update()
         {
             CellPreVisual();
+            Cell cell = m_gridManager.ClosestCells(transform.position + transform.forward * m_interactionDistance);
+            CheckHarvestPosssibility(cell);
         }
 
+        private void SetLayerRecursively(GameObject obj, int layerApplied)
+        {
+            if (null == obj)
+            {
+                return;
+            }
+
+            obj.layer = layerApplied;
+
+            foreach (Transform child in obj.transform)
+            {
+                if (null == child)
+                {
+                    continue;
+                }
+                SetLayerRecursively(child.gameObject, layerApplied);
+            }
+        }
         private void CellPreVisual()
         {
             m_quadFeedback.SetActive(true);
@@ -168,6 +216,8 @@ namespace Player
             if (other.tag != "Collectable") return;
 
             other.GetComponent<Vegetable>().GetCollect();
+            GlobalSoundManager.PlayOneShot(3, Vector3.zero);
+            GenerateNotification(notificationPrefab, compostImage, "+ 1");
             m_rottenVegetableCarry++;
             UpdateUIFeedback();
         }
@@ -177,6 +227,8 @@ namespace Player
             if (other.tag != "Composter") return;
 
             other.GetComponent<ComposterBehavior>().AddVegetable(m_rottenVegetableCarry);
+            GlobalSoundManager.PlayOneShot(0, other.transform.position);
+            GenerateNotification(notificationPrefabRemove, compostImage, "- " + m_rottenVegetableCarry);
             m_rottenVegetableCarry = 0;
             UpdateUIFeedback();
         }
@@ -185,9 +237,11 @@ namespace Player
         {
             if (other.tag != "Seed") return;
 
+            GlobalSoundManager.PlayOneShot(5, Vector3.zero);
             GroupSeed seed = other.GetComponent<GroupSeed>();
             int index = (int)seed.allSeed[0].type;
             m_seeds[index] += seed.allSeed.Length;
+            GenerateNotification(notificationPrefab, seedSelectorImage[index], "+ " + seed.allSeed.Length);
             m_seeds[index] = Mathf.Clamp(m_seeds[index], 0, m_maxSeeds);
             Destroy(other.gameObject);
 
@@ -205,6 +259,13 @@ namespace Player
             if (index ==  -1 ) index = arrayLength - 1;
 
             UpdateUIFeedback();
+        }
+
+        private void GenerateNotification(GameObject PrefabUsed, Sprite spriteUsed, string textused)
+        {
+            GameObject notif = Instantiate(PrefabUsed, notificationHolderPosition.transform.position, notificationHolderPosition.transform.rotation, notificationHolderPosition.transform);
+            notif.GetComponentInChildren<Text>().text = textused;
+            notif.GetComponentInChildren<Image>().sprite = spriteUsed;
         }
     }
 }

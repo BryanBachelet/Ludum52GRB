@@ -58,6 +58,7 @@ public class SeedGenerator : MonoBehaviour
         if (m_reloadTimer >0) return;
 
         m_IsReady = true;
+        GlobalSoundManager.PlayOneShot(8, Vector3.zero);
         m_feedbackCooldown.gameObject.SetActive(false);
         for (int i = 0; i < m_collider.Length; i++)
         {

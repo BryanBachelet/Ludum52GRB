@@ -133,6 +133,9 @@ MonoBehaviour:
   - {r: 0.36078432, g: 0.5176471, b: 0, a: 0}
   - {r: 0.5176471, g: 0.07613525, b: 0, a: 0}
   - {r: 0.16037738, g: 0.1256027, b: 0, a: 0}
+  tomatoMesh: []
+  raishtoMesh: []
+  currentColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &7467693704806639386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +227,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8c0cc2a366a72414dbf161f30516c9df,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 966790420023366511, guid: 8c0cc2a366a72414dbf161f30516c9df,
         type: 3}
@@ -742,7 +745,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d987a20e02e657640b1412ffc3283c9e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5522216828074886484, guid: d987a20e02e657640b1412ffc3283c9e,
         type: 3}
