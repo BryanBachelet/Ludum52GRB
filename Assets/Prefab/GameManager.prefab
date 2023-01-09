@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 9158616475199179760}
   - component: {fileID: 9158616475199179761}
   - component: {fileID: -3233934310226744329}
+  - component: {fileID: 1323760767}
+  - component: {fileID: 1323760770}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,7 +50,7 @@ MonoBehaviour:
   m_cellSize: {x: 1.5, y: 1.5}
   m_gridSize: 50
   m_debugSizePoint: 0.3
-  m_showGrid: 0
+  m_showGrid: 1
   m_gridElements:
   - {fileID: 0}
 --- !u!114 &-3233934310226744329
@@ -63,3 +65,183 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e390c66214fc7824ab8ba58b810c8ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vegetableType: []
+--- !u!114 &1323760767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9158616475199179766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b692680ff2a0d446a757fe8749b63cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_quitEvent:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1323760767}
+        m_TargetAssemblyTypeName: QuitingManager, Assembly-CSharp
+        m_MethodName: SpawnCarrotObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1323760767}
+        m_TargetAssemblyTypeName: QuitingManager, Assembly-CSharp
+        m_MethodName: SpawnRadishObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1323760767}
+        m_TargetAssemblyTypeName: QuitingManager, Assembly-CSharp
+        m_MethodName: UnlockCamera
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1323760767}
+        m_TargetAssemblyTypeName: QuitingManager, Assembly-CSharp
+        m_MethodName: IncreaseSpeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1323760767}
+        m_TargetAssemblyTypeName: QuitingManager, Assembly-CSharp
+        m_MethodName: BiggerThrowableObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1323760767}
+        m_TargetAssemblyTypeName: QuitingManager, Assembly-CSharp
+        m_MethodName: ColorChanging
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_eventText:
+  - 'Game : Wait don''t leave now !! I''m gonna add some carrot if you want !'
+  - 'Game : Ok wait again !! you could try to harvest radish too !'
+  - 'Game : Why are you trying to leave ? Do you need more space ? I let you move
+    more freely if you want but I''m gonna follow what you do'
+  - 'Game : I know why you''re leaving, it''s too big for you... Maybe if I increase
+    your speed you would stay a bit more'
+  - 'Game : You know what, I will give you bigger throwables vegetables. It''s the
+    last chance I''ll give you.'
+  - 'Game : I''m asking myself if the problem came from me or you... Ahahah I''m
+    joking, LOL. I''m changing the game color if you want'
+  m_dialogue: {fileID: 0}
+  carrotSeed: {fileID: 0}
+  radishSeed: {fileID: 0}
+  camScriptBehavior: {fileID: 0}
+--- !u!114 &1323760770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9158616475199179766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2577c9924e01eb74490e6d3e23eb9209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OneS_Sound_Attribution:
+  - Guid:
+      Data1: 1477413251
+      Data2: 1152177967
+      Data3: 716151972
+      Data4: -1046970043
+    Path: event:/Player/Add To Composte
+  - Guid:
+      Data1: 1046935796
+      Data2: 1122468079
+      Data3: -1993696108
+      Data4: -1177793931
+    Path: "event:/Player/Lancer un l\xE9gume"
+  - Guid:
+      Data1: -1184324938
+      Data2: 1280418075
+      Data3: -1442342483
+      Data4: 914062789
+    Path: event:/Player/HitThrowingVege
+  - Guid:
+      Data1: -1920035328
+      Data2: 1334622593
+      Data3: -1048514898
+      Data4: 1519734170
+    Path: "event:/Player/Obtenir un l\xE9gume moisie"
+  - Guid:
+      Data1: -696301535
+      Data2: 1335081378
+      Data3: 1740646787
+      Data4: -1574584952
+    Path: "event:/Player/Obtenir un l\xE9gume"
+  - Guid:
+      Data1: -1064963339
+      Data2: 1162317859
+      Data3: -1228966988
+      Data4: -447105411
+    Path: event:/Player/CollecteSeed
+  - Guid:
+      Data1: 583242279
+      Data2: 1147313517
+      Data3: -1688755317
+      Data4: -695388865
+    Path: event:/Player/Planter
+  - Guid:
+      Data1: -158622068
+      Data2: 1124029533
+      Data3: 1998289539
+      Data4: 1234350
+    Path: "event:/Player/R\xE9colter"
+  - Guid:
+      Data1: 1983148872
+      Data2: 1210132974
+      Data3: 260004503
+      Data4: 1578430829
+    Path: event:/Systeme/SeedGenerator isReady

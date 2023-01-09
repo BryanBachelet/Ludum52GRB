@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8693172909504858975, guid: 23c08b164e7e61e44b7454aebf4946dd, type: 3}
+  - {fileID: 2100000, guid: 76aae00a07c19c84480c0daf059ba076, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -212,10 +212,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_vegetableCount: 0
-  m_rottenVegetableMax: 0
-  m_rottenVegetableMin: 0
-  m_type: 0
-  m_groupSeed: {fileID: 0}
+  m_rottenVegetableMax: 5
+  m_rottenVegetableMin: 10
+  m_type: 3
+  m_groupSeed: {fileID: 6241244689514451649, guid: 04a6c03b59f212848a9c1c80cece8c36,
+    type: 3}
 --- !u!65 &5599049369839220084
 BoxCollider:
   m_ObjectHideFlags: 0

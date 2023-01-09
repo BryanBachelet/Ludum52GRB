@@ -18,6 +18,7 @@ public class QuitingManager : MonoBehaviour
     public GameObject carrotSeed;
     public GameObject radishSeed;
     public CameraBehavior camScriptBehavior;
+    public GameObject limiteTerrain2;
     public void ListenToEvent(int index, UnityAction call)
     {
         m_quitEvent[0].AddListener(call);
@@ -54,6 +55,7 @@ public class QuitingManager : MonoBehaviour
     public void UnlockCamera()
     {
         camScriptBehavior.isfollowing = true;
+        limiteTerrain2.SetActive(false);
     }
     public void IncreaseSpeed()
     {

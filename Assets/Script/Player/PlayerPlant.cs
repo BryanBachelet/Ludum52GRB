@@ -97,7 +97,7 @@ namespace Player
                 return;
             }
 
-            GameObject go = GameObject.Instantiate(m_throwSeed, transform.position, transform.rotation);
+            GameObject go = GameObject.Instantiate(m_throwSeed, transform.position - new Vector3(0,2,0), transform.rotation);
             GlobalSoundManager.PlayOneShot(1, Vector3.zero);
             ThrowVegetable throwVegetable = go.GetComponent<ThrowVegetable>();
             GenerateNotification(notificationPrefabRemove, ThrowVegetableImage[m_indexVegetableSelected], "- 1");
