@@ -33,7 +33,11 @@ namespace Player
         private int[] m_vegetableCarryNumber = new int[4];
         private int m_rottenVegetableCarry;
 
+        public Sprite[] seedSelectorImage;
+        public Sprite[] ThrowVegetableImage;
 
+        public Image[] playerInterfaceImage;
+        
         private void Start()
         {
             UpdateUIFeedback();
@@ -64,6 +68,7 @@ namespace Player
             if (ctx.started)
             {
                 ChangeObjectSelected((int)ctx.ReadValue<float>(),ref m_indexSeedSelected,m_seeds.Length);
+                playerInterfaceImage[1].sprite = seedSelectorImage[m_indexSeedSelected];
             }
         }
 
@@ -74,6 +79,7 @@ namespace Player
             if (ctx.started)
             {
                 ChangeObjectSelected((int)Mathf.Sign(ctx.ReadValue<float>()), ref m_indexVegetableSelected, m_vegetable.Length);
+                playerInterfaceImage[2].sprite = ThrowVegetableImage[m_indexVegetableSelected];
             }
         }
 
