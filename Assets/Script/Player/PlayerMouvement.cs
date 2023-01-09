@@ -14,10 +14,12 @@ namespace Player
 
         private Vector3 m_directionInput;
 
-
+        public FMODUnity.EventReference walkingsound;
+        public FMOD.Studio.EventInstance walkinginstance;
         private void Start()
         {
             InitComponent();
+            walkinginstance = FMODUnity.RuntimeManager.CreateInstance(walkingsound);
         }
 
         private void InitComponent()
@@ -33,10 +35,12 @@ namespace Player
             {
                 Vector2 input = ctx.ReadValue<Vector2>();
                 m_directionInput = new Vector3(input.x, 0, input.y);
+                walkinginstance.start();
             }
             if (ctx.canceled)
             {
                 m_directionInput = Vector3.zero;
+                walkinginstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
             }
         }
