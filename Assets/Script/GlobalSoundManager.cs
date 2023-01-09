@@ -14,12 +14,15 @@ public class GlobalSoundManager : MonoBehaviour
 
     public EventReference[] OneS_Sound_Attribution;
 
-
+    public EventReference Globalsound;
+    public EventInstance globalinstance;
     // Start is called before the first frame update
     void Start()
     {
         everyEvent = everyEvent_Attribution;
         OneS_Sound = OneS_Sound_Attribution;
+        globalinstance = FMODUnity.RuntimeManager.CreateInstance(Globalsound);
+        globalinstance.start();
     }
 
     public static void PlayOneShot(int sNumber, Vector3 position)

@@ -81,6 +81,7 @@ public class GridManager : MonoBehaviour
         return m_cellsPosition[cellID].isEmpty;
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (!m_showGrid) return;
@@ -112,7 +113,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-
+#endif
     public void DrawClosestCellPosition(Vector3 position)
     {
         Cell cell = ClosestCells(position);
